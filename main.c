@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "book_management.h"
+#include "user.h"
 
 int main( int argc, char **argv )
 {
@@ -10,23 +11,23 @@ int main( int argc, char **argv )
 	book_all = (BookList *)malloc(sizeof(BookList));
 	book_all->list = (Book *)malloc(sizeof(Book));
 
-	//UserList *user_all;
-	//user_all = (UserList *)malloc(sizeof(UserList));
-	//user_all->list = (User *)malloc(sizeof(User));
+	UserList *user_all;
+	user_all = (UserList *)malloc(sizeof(UserList));
+	user_all->list = (User *)malloc(sizeof(User));
 
 	FILE *fp;
 
-	fp = fopen("books.txt", "r");
+	fp = fopen("book.txt", "r");
 	if( fp == NULL) {
-		printf("\nError, books file does not exist.\n");
+		printf("\nError, BOOK FILE does not exist.\n");
 		exit(0);
 	}
 	load_books(fp, book_all);
 	fclose(fp);
 
-	fp = fopen("users.txt", "r");
+	fp = fopen("user.txt", "r");
 	if( fp == NULL) {
-		printf("\nError, users file does not exist.\n");
+		printf("\nError, USER FILE does not exist.\n");
 		exit(0);
 	}
 	load_users(fp, user_all);
@@ -34,10 +35,17 @@ int main( int argc, char **argv )
 
 
 
-	int libraryOpen = 1;
+	int Judgement_condition = 1;
 	int option;
-	while( libraryOpen ){
-		printf("\n Please choose an option:\n 1) Register an account\n 2) Login\n 3) Search for books\n 4) Display all books\n 5) Quit\n Option: ");
+	while( Judgement_condition ){
+		printf("-----------------------------------");
+		printf("\n Please choose an option: \n");
+		printf("\n (1) Register an account \n");
+		printf("\n (2) Login \n");
+		printf("\n (3) Search for books \n");
+		printf("\n (4) Display all books \n");
+		printf("\n (5) Quit \n");
+		printf("\n Please enter the Option: \n");
 		option = optionChoice();
 
 		if( option == 1 ) {
@@ -65,16 +73,12 @@ int main( int argc, char **argv )
 			display_all(book_all);
 		}
 		else if( option == 5 ) {
-			libraryOpen = 0;
-			printf("\nThank you for using the library!\nGoodbye!\n");
+			Judgement_condition = 0;
+			printf("\nThank you for using the library system!\n");
 		}
 		else
 			printf("\nSorry, the option you entered was invalid, please try again.\n");
 	}
-
-	//store_books(FILE *file);
-	//store_users(FILE *file);
-	//store_loans(FILE *file);
 
 	free(book_all);
 	free(user_all);
