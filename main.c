@@ -16,7 +16,7 @@ Book* read()
 		printf("cannot open file\n");
 		exit(0);
 	}
-	while(fscanf(fp,"%s%s%s%s%s%d%f",book1.id,book1.title,book1.authors,book1.year,book1.copies)!=EOF)//??????????????? 
+	while(fscanf(fp,"%s%s%s%s%s%d%f",book1.id,book1.title,book1.authors,book1.year,book1.copies)!=EOF)
 	{  
 		p=(Book*)malloc(sizeof(Book));
 		p->Book=book1;						
