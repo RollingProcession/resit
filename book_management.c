@@ -3,7 +3,7 @@
 BookList bookList;
 #include<stdlib.h>
 #include<string.h>
-int store_books(FILE* file)
+int store_books(FILE* file)//store book
 {
 	Book* p = bookList.list->next;
 	while (p)
@@ -18,7 +18,8 @@ int store_books(FILE* file)
 	fclose(file);
 	return 1;
 }
-int load_books(FILE* file)
+
+int load_books(FILE* file)//load book
 {
 	if (!file)
 		return -1;
@@ -57,7 +58,8 @@ int load_books(FILE* file)
 	fclose(file);
 	return 1;
 }
-void createBookList()
+
+void createBookList()//Create a new list
 {
 	FILE* file = fopen("books.txt", "r");
 	bookList.list = (Book*)malloc(sizeof(Book));
@@ -65,16 +67,17 @@ void createBookList()
 	bookList.length = 0;
 	load_books(file);
 }
-void showAllBook()
+
+void showAllBook()//print booklist
 {
 	Book*p= bookList.list->next;
 	int i;
 	if (p == NULL)
 	{
-		printf("暂无图书信息！\n");
+		printf("No book!\n");
 		return;
 	}
-	printf("Book ID\t\tBook title\t\tauthors\t\tyear of publication\t\tnumber of copies the library has\n");
+	printf("Book ID\t\tBook title\t\tauthors\t\tyear\t\tnumber of copies the library has\n");
 	while (p)
 	{
 		printf("%d\t\t",p->id); 
@@ -97,7 +100,8 @@ void showAllBook()
 	}
 	printf("\n");
 }
-int add_book(Book book)
+
+int add_book(Book book)//add book
 {
 	Book *b=(Book*)malloc(sizeof(Book));
 	*b = book;
@@ -105,11 +109,11 @@ int add_book(Book book)
 	bookList.list->next = b;
 	bookList.length++;
 	store_books(fopen("books.txt", "w"));
-	printf("添加成功！\n");
+	printf("Add success!\n");
 	return 1;
 }
 
-int remove_book(Book book)
+int remove_book(Book book)//remove book
 {
 	Book* p = bookList.list;
 	while (p->next)
@@ -119,17 +123,21 @@ int remove_book(Book book)
 			Book* p2 = p->next;
 			p->next = p2->next;
 			free(p2);
-			printf("删除成功！\n");
+			printf("Delete the success!\n");
 			bookList.length--;
 			store_books(fopen("books.txt", "w"));
 			return 1;
 		}
 		p = p->next;
 	}
-	printf("删除失败！\n");
+	printf("Delete failed!\n");
 	return -1;
 }
 
+//finds books with a given title.
+//returns a BookList structure, where the field "list" is a list of books, or null if no book with the 
+//provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
+//list is the NULL pointer.
 BookList find_book_by_title(const char* title)
 {
 	BookList newBookList;
@@ -155,7 +163,8 @@ BookList find_book_by_title(const char* title)
 	}
 	return newBookList;
 }
-int theBookIsHaveTheAuthor(char* authors, const char* author)
+
+int theBookIsHaveTheAuthor(char* authors, const char* author)//Identify and obtain a title
 {
 	char* p;
 	p = strtok(authors, "\n");
@@ -169,6 +178,11 @@ int theBookIsHaveTheAuthor(char* authors, const char* author)
 	}
 	return 0;
 }
+
+//finds books with the given authors.
+//returns a Booklist structure, where the field "list" is a newly allocated list of books, or null if no book with the 
+//provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
+//list is the NULL pointer.
 BookList find_book_by_author(const char* author)
 {
 	BookList newBookList;
@@ -197,6 +211,10 @@ BookList find_book_by_author(const char* author)
 	return newBookList;
 }
 
+//finds books published in the given year.
+//returns a Booklist structure, where the field "list" is a list of books, or null if no book with the 
+//provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
+//list is the NULL pointer.
 BookList find_book_by_year(unsigned int year)
 {
 	BookList newBookList;
@@ -218,12 +236,13 @@ BookList find_book_by_year(unsigned int year)
 	}
 	return newBookList;
 }
-void showBookListByBookList(BookList bL)
+
+void showBookListByBookList(BookList bL)//print the booklist
 {
 	Book* p = bL.list->next;
 	if (p == NULL)
 	{
-		printf("暂无图书信息！\n");
+		printf("No book!\n");
 		return;
 	}
 	printf("----------------------------------------------\n");
@@ -243,14 +262,17 @@ void showBookListByBookList(BookList bL)
 	}
 	printf("----------------------------------------------\n");
 }
-Book getBookById()
+
+Book getBookById()//Access book id
 {
 	Book b;
-	printf("请输入Book ID:");
+	printf("please enter Book ID:");
 	scanf("%d", &b.id);
 	return b;
 }
-Book* getBookPointById() {
+
+Book* getBookPointById()//Look up books by isBN number
+{
 	Book b=getBookById();
 	Book* p = bookList.list->next;
 	while (p)
@@ -263,15 +285,16 @@ Book* getBookPointById() {
 	}
 	return NULL;
 }
-Book inputBook()
+
+Book inputBook()//Store books
 {
 	Book b;
-	printf("请输入Book ID:");
+	printf("please enter Book ID:");
 	scanf("%d", &b.id);
-	printf("请输入book title:");
+	printf("please enter book title:");
 	b.title = (char*)malloc(sizeof(char) * 256);
 	scanf("%s", b.title);
-	printf("请输入作者数量:");
+	printf("please enter author number:");
 	int cnt;
 	int i;
 	scanf("%d", &cnt);
@@ -281,13 +304,13 @@ Book inputBook()
 	b.authors[0] = '\0';
 	for (i = 1; i <= cnt; i++)
 	{
-		printf("请输入第%d位作者的名字:", i);
+		printf("please enter number %d author name:", i);
 		fgets(name, 256, stdin);
 		strcat(b.authors, name);
 	}
-	printf("请输入year of publication:");
+	printf("please enter year of publication:");
 	scanf("%d", &b.year);
-	printf("请输入number of copies the library has:");
+	printf("please enter number of copies the library has:");
 	scanf("%d", &b.copies);
 	return b;
 }

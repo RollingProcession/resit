@@ -5,7 +5,7 @@
 #include<stdlib.h>
 UserList uList;
 
-int save(FILE* file)
+int save(FILE* file)//Store information
 {
 	User* p;
 	unsigned int i;
@@ -25,7 +25,8 @@ int save(FILE* file)
 	fclose(file);
 	return 1;
 }
-int read(FILE* file)
+
+int read(FILE* file)//Reading User Information
 {
 	User* p;
 	if (!file)
@@ -51,7 +52,8 @@ int read(FILE* file)
 	fclose(file);
 	return 1;
 }
-void createUserList()
+
+void createUserList()//create a new list
 {
 	FILE* file=fopen("userAndPassword.txt","r");
 	uList.list = (User*)malloc(sizeof(User));
@@ -59,7 +61,8 @@ void createUserList()
 	uList.length = 0;
 	read(file);
 }
-int login()
+
+int login()//log in
 {
 	User u;
 	unsigned int i;
@@ -67,11 +70,11 @@ int login()
 
 	while (1)
 	{
-		printf("请输入用户名:");
+		printf("Please enter a user name:");
 		scanf("%s", u.uName);
 		if (strlen(u.uName) > 18)
 		{
-			printf("用户名长度大于18，请重新输入!\n");
+			printf("username contains more than 18 characters, enter a new username!\n");
 		}
 		else
 			break;
@@ -80,11 +83,11 @@ int login()
 	}
 	while (1)
 	{
-		printf("请输入密码:");
+		printf("Please enter your password:");
 		scanf("%s", u.passWord);
 		if (strlen(u.passWord) > 18)
 		{
-			printf("密码长度大于18，请重新输入!\n");
+			printf("The password contains more than 18 characters. Enter a new password!\n");
 		}
 		else
 			break;
@@ -97,21 +100,22 @@ int login()
 		{
 			if (strcmp(p->passWord, u.passWord) == 0)
 			{
-				printf("登录成功！\n");
-				return i;//返回当前登录用户的下标
+				printf("Login successful!\n");
+				return i;// Returns the subscript of the currently logged in user
 			}
 			else	
 			{
-				printf("密码有误！登录失败！\n");
+				printf("Wrong password! Login failed!\n");
 				return -1;
 			}
 		}
 		p = p->next;
 	}
-	printf("当前用户未注册！\n");
+	printf("The current user is not registered!\n");
 	return -1;
 }
-int regist()
+
+int regist()//registered
 {
 	User* u;
 	FILE* file;
@@ -123,11 +127,11 @@ int regist()
 	u->next = NULL;
 	while (1)
 	{
-		printf("请输入用户名:");
+		printf("Please enter a user name:");
 		scanf("%s", u->uName);
 		if (strlen(u->uName) > 18)
 		{
-			printf("用户名长度大于18，请重新输入!\n");
+			printf("username contains more than 18 characters, enter a new username!\n");
 		}
 		else
 			break;
@@ -142,22 +146,22 @@ int regist()
 
 		while (1)
 		{
-			printf("请输入密码:");
+			printf("Please enter your password:");
 			scanf("%s", u->passWord);
 			if (strlen(u->passWord) > 18)
 			{
-				printf("密码长度大于18，请重新输入!\n");
+				printf("The password contains more than 18 characters. Enter a new password!\n");
 			}
 			else
 				break;
 			while (getchar() != '\n')
 				;
 		}
-		printf("请确认密码:");
+		printf("Please confirm the password.:");
 		scanf("%s", password2);
 		if (strcmp(password2, u->passWord) != 0)
 		{
-			printf("两次密码不一致！请重新输入！\n");
+			printf("The two passwords do not match! Please re-enter!\n");
 		}
 		else
 			break;
@@ -165,23 +169,24 @@ int regist()
 	for (i = 0, p = uList.list->next; i < uList.length; i++) {
 		if (strcmp(p->uName, u->uName) == 0)
 		{
-			printf("用户名已存在！注册失败！\n");
+			printf("The user name already exists! Registration failed!\n");
 			free(u);
 			return -1;
 		}
 		p = p->next;
 	}
-	printf("请输入姓名：");
+	printf("Please enter your name:");
 	scanf("%s", u->name);
 	u->next = uList.list->next;
 	uList.list->next = u;
 	uList.length++;
-	printf("注册成功！\n");
+	printf("Registered successfully!\n");
 	file = fopen("userAndPassword.txt", "w");
 	save(file);
 	return 1;
 }
-int isManager(int uIndex)
+
+int isManager(int uIndex)//Administrator Login
 {
 	int i;
 	User* p;
@@ -192,32 +197,35 @@ int isManager(int uIndex)
 		return 1;
 	return 0;
 }
-void borrow_book()
+
+void borrow_book()//borrow book
 {
 	Book*b=getBookPointById();
 	int cnt;
-	printf("请输入您要借阅的本数:");
+	printf("Please enter the number of copies you want to borrow:");
 	scanf("%d", &cnt);
 	if (cnt > b->copies)
 	{
-		printf("库存不足，借阅失败！\n");
+		printf("Loan failed due to insufficient stock!\n");
 	}
 	else
 	{
-		b->copies -= cnt;
-		printf("借阅成功！\n");
+		b->copies -= cnt;//Quantity in stock reduced by one
+		printf("Borrowing successful!\n");
 	}
 }
-void return_book()
+
+void return_book()//return book
 {
 	Book* b = getBookPointById();
 	int cnt;
-	printf("请输入您要归还的本数:");
+	printf("Please enter the number of copies you want to return:");
 	scanf("%d", &cnt);
 	b->copies += cnt;
-	printf("归还成功！\n");
+	printf("Return the success!\n");
 }
-char* getName(int index)
+
+char* getName(int index)//Obtaining a User Name
 {
 	User* p = uList.list->next;
 	int i;

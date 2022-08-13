@@ -3,12 +3,13 @@
 #include"User_management.h"
 #include<stdlib.h>
 #include<string.h>
-void login_menu();//登录菜单
-void manage_menu();//管理员菜单
-void user_menu();//用户菜单
-int login_action();//登录操作
-void action_manage();//管理员操作
-void action_user();//用户操作
+void login_menu();//login menu
+void manage_menu();//Administrator Menu
+void user_menu();//user menu
+int login_action();//log in
+void action_manage();//management action
+void action_user();//user action
+
 int main() {
 	
 	createUserList();
@@ -17,27 +18,29 @@ int main() {
 	while (1)
 	{
 		cur_user_index = login_action();
-		if (strcmp(getName(cur_user_index),"root") == 0)//如果是管理员
+		if (strcmp(getName(cur_user_index),"root") == 0)//Judgment of identity
 		{
-			action_manage();//管理员操作
+			action_manage();
 		}
 		else
 		{
-			action_user();//用户操作
+			action_user();
 		}
 	}
 	return 0;
 }
-void login_menu()
+
+void login_menu()//login menu
 {
 	system("cls");
-	printf("图书管理系统\n");
-	printf("1:用户注册\n");
-	printf("2:用户登录\n");
-	printf("0:退出当前系统\n");
-	printf("请输入您的选择:\n");
+	printf("Library management system\n");
+	printf("1:User registration\n");
+	printf("2:The user login\n");
+	printf("0:Exiting the current System\n");
+	printf("Please enter your selection:\n");
 }
-int login_action()//登录操作
+
+int login_action()//log in
 {
 	int ch;
 	int ret;
@@ -58,29 +61,31 @@ int login_action()//登录操作
 		}
 			break;
 		case 0:
-			printf("感谢您的使用！\n");
+			printf("Thank you for your use!\n");
 			exit(0);
 		default:
-			printf("您的输入有误！\n");
+			printf("Your input is incorrect!\n");
 			break;
 		}
 		system("pause");
 	}
 }
-void manage_menu()//管理员菜单
+
+void manage_menu()//Administrator Menu
 {
 	system("cls");
-	printf("图书管理系统\n");
-	printf("1:添加图书\n");
-	printf("2:删除图书\n");
-	printf("3:显示所有图书\n");
-	printf("4:按照出版年显示图书\n");
-	printf("5:按照标题显示图书\n");
-	printf("6:按照作者显示图书\n");
-	printf("0:返回上一级\n");
-	printf("请输入您的选择:\n");
+	printf("Library management system\n");
+	printf("1:Add books\n");
+	printf("2:Delete books\n");
+	printf("3:Display all books\n");
+	printf("4:Search for books by publication year\n");
+	printf("5:Search for books by title\n");
+	printf("6:Search for books by author\n");
+	printf("0:Back to the previous level\n");
+	printf("Please enter your selection:\n");
 }
-void action_manage()//管理员操作
+
+void action_manage()//management action
 {
 	int ch;
 	while (1)
@@ -98,7 +103,7 @@ void action_manage()//管理员操作
 		case 4:
 		{
 			int year;
-			printf("请输入一个年份：");
+			printf("Please enter a year:");
 			scanf("%d", &year);
 			showBookListByBookList(find_book_by_year(year));
 		}
@@ -106,7 +111,7 @@ void action_manage()//管理员操作
 		case 5:
 		{
 			char title[256];
-			printf("请输入一个标题：");
+			printf("Please enter a title:");
 			scanf("%s", title);
 			showBookListByBookList(find_book_by_title(title));
 		}
@@ -114,7 +119,7 @@ void action_manage()//管理员操作
 		case 6:
 		{
 			char author[1024];
-			printf("请输入一个作者姓名：");
+			printf("Please enter author:");
 			getchar();
 			fgets(author, 1024, stdin);
 			author[strlen(author) - 1] = '\0';
@@ -124,26 +129,28 @@ void action_manage()//管理员操作
 		case 0:
 			return;
 		default:
-			printf("您的输入有误！\n");
+			printf("Your input is incorrect!\n");
 			break;
 		}
 		system("pause");
 	}
 }
-void user_menu()//用户菜单
+
+void user_menu()//user menu
 {
 	system("cls");
-	printf("图书管理系统\n");
-	printf("1:借书\n");
-	printf("2:还书\n");
-	printf("3:显示所有图书\n");
-	printf("4:按照出版年显示图书\n");
-	printf("5:按照标题显示图书\n");
-	printf("6:按照作者显示图书\n");
-	printf("0:返回上一级\n");
-	printf("请输入您的选择:\n");
+	printf("Library management system\n");
+	printf("1:borrow book\n");
+	printf("2:Return the book\n");
+	printf("3:Display all books\n");
+	printf("4:Search for books by publication year\n");
+	printf("5:Search for books by title\n");
+	printf("6:Search for books by author\n");
+	printf("0:Back to the previous level\n");
+	printf("Please enter your selection:\n");
 }
-void action_user()//用户操作
+
+void action_user()//user action
 {
 	int ch;
 	while (1)
@@ -161,7 +168,7 @@ void action_user()//用户操作
 		case 4:
 		{
 			int year;
-			printf("请输入一个年份：");
+			printf("Please enter a year:");
 			scanf("%d", &year);
 			showBookListByBookList(find_book_by_year(year));
 		}
@@ -169,7 +176,7 @@ void action_user()//用户操作
 		case 5:
 		{
 			char title[256];
-			printf("请输入一个标题：");
+			printf("Please enter a title:");
 			scanf("%s", title);
 			showBookListByBookList(find_book_by_title(title));
 		}
@@ -177,7 +184,7 @@ void action_user()//用户操作
 		case 6:
 		{
 			char author[1024];
-			printf("请输入一个作者姓名：");
+			printf("Please enter author:");
 			getchar();
 			fgets(author, 1024, stdin);
 			author[strlen(author) - 1] = '\0';
@@ -187,7 +194,7 @@ void action_user()//用户操作
 		case 0:
 			return;
 		default:
-			printf("您的输入有误！\n");
+			printf("Your input is incorrect!\n");
 			break;
 		}
 		system("pause");
